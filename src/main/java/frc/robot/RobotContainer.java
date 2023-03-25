@@ -5,56 +5,20 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.event.EventLoop;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
-import frc.robot.commands.ArmCommand;
-import frc.robot.commands.ArmDeployCommandGroup;
-import frc.robot.commands.ArmHoldCommand;
-import frc.robot.commands.AutonomousOneCommandGroup;
-import frc.robot.commands.BalanceAutoCommandGroup;
 import frc.robot.commands.BalanceCommand;
 import frc.robot.commands.BrakeCommand;
-import frc.robot.commands.DeployIntakeCommand;
-import frc.robot.commands.MovePayoutCommand;
-import frc.robot.commands.NoAutoCommand;
-import frc.robot.commands.PayoutInCommand;
-import frc.robot.commands.PlaceConesCommandGroup;
-import frc.robot.commands.ResetArmCommand;
 import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.SpitConeCommand;
-import frc.robot.commands.ToggleColorCommand;
-import frc.robot.commands.ToggleConeCommand;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExtenderSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.blinkin;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import java.util.List;
-import frc.robot.Constants.PWMPorts;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -69,8 +33,6 @@ public class RobotContainer {
   public final DriveSubsystem m_robotDrive = new DriveSubsystem();
   public final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  public final blinkin m_blinkinSubsystem = new blinkin(3);
-  public final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
   public final ExtenderSubsystem m_ExtenderSubsystem = new ExtenderSubsystem();
 
   // The driver's controller
@@ -124,33 +86,14 @@ public class RobotContainer {
       joystick.button(10).onTrue(new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, .6));
       joystick.button(12).onTrue(new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, .9));
 
-
-      joystick.button(4).whileTrue(new ResetArmCommand(m_ArmSubsystem, .3));
-      joystick.button(3).whileTrue(new ResetArmCommand(m_ArmSubsystem, -.3));
-
-      joystick.button(1).whileTrue(new ToggleConeCommand(m_ArmSubsystem));
-      joystick.button(2).whileTrue(new SpitConeCommand(m_ArmSubsystem));
-
-      joystick.button(6).whileTrue(new MovePayoutCommand(m_ExtenderSubsystem, 0));
-      joystick.button(5).whileTrue(new PayoutInCommand(m_ExtenderSubsystem, 0));
-
-      m_driverController.rightBumper().whileTrue(new DeployIntakeCommand(m_intakeSubsystem));
       m_driverController.leftBumper().whileTrue(new BrakeCommand(m_robotDrive));
 
-      // Score Low
-      m_driverController.a().onTrue(new ArmDeployCommandGroup(m_ArmSubsystem, m_ExtenderSubsystem, -35, 0));
-      // Score High
-      m_driverController.b().onTrue(new ArmDeployCommandGroup(m_ArmSubsystem, m_ExtenderSubsystem, -35, 58));
 
     //m_driverController.y().onTrue(new ToggleColorCommand(m_blinkinSubsystem));
 
     //   abutton.whenPressed(() -> m_blinkin.set(.91), m_blinkin);    // purple
     //   bbutton.whenPressed(() -> m_blinkin.set(.69), m_blinkin);   // yellow
 
-    SmartDashboard.putData(new ArmHoldCommand(m_ArmSubsystem, -35));
-    SmartDashboard.putData(new MovePayoutCommand(m_ExtenderSubsystem, 71));
-    SmartDashboard.putData(new ArmDeployCommandGroup(m_ArmSubsystem, m_ExtenderSubsystem, -45, 20));
-    SmartDashboard.putData(new PlaceConesCommandGroup(m_ArmSubsystem, m_ExtenderSubsystem, -45, 20));
     SmartDashboard.putData(new BalanceCommand(m_robotDrive));
 
   }

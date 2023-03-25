@@ -14,15 +14,17 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class RedAutos {
+public class Autos {
     private DriveSubsystem m_driveSubsystem;
     private IntakeSubsystem m_intakeSubsystem;
     private ShooterSubsystem m_shooterSubsystem;
     private TrajectoryCommandFactory m_trajectoryCommandFactory;
 
     public Command right3BallAuto;
-    private Command left3BallAuto;
-    private Command centerBalanceCommand;
+    public Command left3BallAuto;
+    public Command centerBalanceAuto;
+    public Command centerRight2BallAuto;
+    public Command centerLeft2BallAuto;
 
     // Side Positions
     private final double Y_BALL = 4.9;
@@ -38,7 +40,7 @@ public class RedAutos {
     private final double Y_CENTERBALL = 6.4;
     private final double X_CENTEROFFSET = -.3;
 
-    public RedAutos(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, TrajectoryCommandFactory trajectoryCommandFactory) {
+    public Autos(DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, TrajectoryCommandFactory trajectoryCommandFactory) {
         m_driveSubsystem = driveSubsystem;
         m_intakeSubsystem = intakeSubsystem;
         m_shooterSubsystem = shooterSubsystem;
@@ -46,7 +48,9 @@ public class RedAutos {
 
         right3BallAuto = buildSideThreeBall(1);
         left3BallAuto = buildSideThreeBall(-1);
-        centerBalanceCommand = buildBalanceCommand();
+        centerBalanceAuto = buildBalanceCommand();
+        centerRight2BallAuto = buildCenter2BallCommand(-1);
+        centerLeft2BallAuto = buildCenter2BallCommand(1);
     }
 
     public Command buildSideThreeBall(double t) {
@@ -113,10 +117,11 @@ public class RedAutos {
         return new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, .5)
         .andThen(driveOutCommand)
         .andThen(new BalanceCommand(m_driveSubsystem))
+        .andThen(Commands.runOnce(() -> m_driveSubsystem.setX()))
         ;
     }
 
-    private Command buildBalancePlus1Command(double t) {
+    private Command buildCenter2BallCommand(double t) {
         Trajectory driveOut = m_trajectoryCommandFactory.createTrajectory(
             new Pose2d(0, 0, new Rotation2d(0)),
             List.of(
@@ -148,6 +153,7 @@ public class RedAutos {
         .andThen(Commands.runOnce(() -> m_intakeSubsystem.intakeOut(false)))
         .andThen(balanceTrajCommand)
         .andThen(new BalanceCommand(m_driveSubsystem))
+        .andThen(Commands.runOnce(() -> m_driveSubsystem.setX()))
         ;
     }
 }

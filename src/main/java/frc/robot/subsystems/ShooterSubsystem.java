@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -17,6 +18,10 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax shootadvance2;
   private static final int deviceIDshoot = 25;
   private CANSparkMax shooter;
+  private static final int leftServoID = 2;
+  private static final int rightServoID = 3;
+  private Servo leftServo;
+  private Servo rightServo;
 
   /** Creates a new ShooterSubsystem. */
   
@@ -28,7 +33,8 @@ public class ShooterSubsystem extends SubsystemBase {
     shootadvance2.restoreFactoryDefaults();
     shooter = new CANSparkMax(deviceIDshoot, MotorType.kBrushless);
     shooter.restoreFactoryDefaults();
-
+    leftServo = new Servo(leftServoID);
+    rightServo = new Servo(rightServoID);
   }
 
   @Override
@@ -38,13 +44,25 @@ public class ShooterSubsystem extends SubsystemBase {
   public void shoot(double speed) {
     shooter.set(-speed);
   }
+
   public void shootadvance(double speed) {
     shootadvance2.set(speed);
     shootadvance.set(speed);
   }
+
   public void dontshoot() {
     shootadvance.set(0);
     shootadvance2.set(0);
     shooter.set(0);
+  }
+
+  public void servoOut(boolean isOut) {
+    if(isOut) {
+      leftServo.setAngle(0);
+      rightServo.setAngle(0);
+    } else {
+      leftServo.setAngle(0);
+      rightServo.setAngle(0);
     }
+  }
 }
