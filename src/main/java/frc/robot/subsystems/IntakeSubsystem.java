@@ -123,9 +123,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
   }
 
-  public void setIntakeOut(boolean isOut) {
-    intakeIsOut = isOut; 
-    if (intakeIsOut)
-        overTheBumper.set(defaultIntakeSpeed);
+  public void intakeOut(boolean isOut) {
+    
   }
 }

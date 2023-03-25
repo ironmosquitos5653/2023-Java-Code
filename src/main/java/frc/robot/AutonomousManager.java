@@ -28,11 +28,7 @@ public class AutonomousManager {
     private ShooterSubsystem m_shooterSubsystem;
     private TrajectoryCommandFactory m_trajectoryCommandFactory;
 
-    private Command rightPipeDreamCommand;
-    private Command rightNoBalanceCommand;
-    private Command rightBalanceCommand;
-    private Command leftPipeDreamCommand;
-    private Command centerRightBalanceCommand;
+    private RedAutos m_redAutos;
 
     public SendableChooser<Command> m_chooser = new SendableChooser<>();
     
@@ -41,8 +37,9 @@ public class AutonomousManager {
         m_intakeSubsystem = intakeSubsystem;
         m_shooterSubsystem = shooterSubsystem;
         m_trajectoryCommandFactory = new TrajectoryCommandFactory(driveSubsystem);
-        initRightCommand();
-        initCenterCommand();
+        m_redAutos = new RedAutos(driveSubsystem, intakeSubsystem, shooterSubsystem, m_trajectoryCommandFactory);
+        
+        /* 
         m_chooser.addOption("CenterRight", centerRightBalanceCommand);
         m_chooser.addOption("AutonomousCommand", new AutonomousOneCommandGroup(m_driveSubsystem, m_intakeSubsystem, m_shooterSubsystem));
         m_chooser.addOption("BalanceAutonomousCommand", new BalanceAutoCommandGroup(m_driveSubsystem, m_shooterSubsystem, m_intakeSubsystem));
@@ -51,6 +48,7 @@ public class AutonomousManager {
         //m_chooser.addOption("RightPipeDream", rightPipeDreamCommand);
         m_chooser.addOption("No Auto", new NoAutoCommand());
         SmartDashboard.putData("Auto Mode", m_chooser);
+        */
     }
 
     public Command getAutonomousCommand() {
