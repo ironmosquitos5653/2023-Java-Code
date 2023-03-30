@@ -19,11 +19,11 @@ public class IntakeSubsystem extends SubsystemBase {
   private static final int deviceIDadvance2 = 23;
   private CANSparkMax advance2;
 
-  private static final int deviceIDOverTheBumper = 30;
-  private CANSparkMax overTheBumper;
+    // private static final int deviceIDOverTheBumper = 30;
+    // private CANSparkMax overTheBumper;
 
-  private static final int solenoidForward = 0;
-  private static final int solenoidReverse = 1;
+  private static final int solenoidForward = 3;
+  private static final int solenoidReverse = 2;
   private DoubleSolenoid theSolenoid;
 
 
@@ -33,9 +33,9 @@ public class IntakeSubsystem extends SubsystemBase {
     advance.restoreFactoryDefaults();
     advance2 = new CANSparkMax(deviceIDadvance2, MotorType.kBrushless);
     advance2.restoreFactoryDefaults();
-    overTheBumper = new CANSparkMax(deviceIDOverTheBumper, MotorType.kBrushless);
-    overTheBumper.restoreFactoryDefaults();
-    theSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, solenoidForward, solenoidReverse);
+    // overTheBumper = new CANSparkMax(deviceIDOverTheBumper, MotorType.kBrushless);
+    // overTheBumper.restoreFactoryDefaults();
+    theSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, solenoidForward, solenoidReverse);
     intakeOut(false);
   }
 
@@ -56,9 +56,9 @@ public class IntakeSubsystem extends SubsystemBase {
     advance2.set(0);
   }
 
-  public void setOverBumperSpeed(double speed) {
-    overTheBumper.set(-speed);
-  }
+  // public void setOverBumperSpeed(double speed) {
+  //   overTheBumper.set(-speed);
+  // }
 
   public void intakeOut(boolean isOut) {
     if (isOut) {
@@ -66,5 +66,9 @@ public class IntakeSubsystem extends SubsystemBase {
     } else {
       theSolenoid.set(Value.kReverse);
     }
+  }
+
+  public void toggleIntake() {
+    theSolenoid.toggle();
   }
 }

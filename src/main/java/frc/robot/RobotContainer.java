@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.BalanceCommand;
 import frc.robot.commands.BrakeCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ExtenderSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,7 +33,6 @@ public class RobotContainer {
   public final DriveSubsystem m_robotDrive = new DriveSubsystem();
   public final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
-  public final ExtenderSubsystem m_ExtenderSubsystem = new ExtenderSubsystem();
 
   // The driver's controller
   public static CommandXboxController m_driverController = new CommandXboxController(0); // owenwashere
@@ -87,14 +86,10 @@ public class RobotContainer {
       joystick.button(12).onTrue(new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, .9));
 
       m_driverController.leftBumper().whileTrue(new BrakeCommand(m_robotDrive));
+      m_driverController.rightBumper().onTrue(new IntakeCommand(m_intakeSubsystem));
 
-
-    //m_driverController.y().onTrue(new ToggleColorCommand(m_blinkinSubsystem));
-
-    //   abutton.whenPressed(() -> m_blinkin.set(.91), m_blinkin);    // purple
-    //   bbutton.whenPressed(() -> m_blinkin.set(.69), m_blinkin);   // yellow
-
-    SmartDashboard.putData(new BalanceCommand(m_robotDrive));
+    
+      SmartDashboard.putData(new BalanceCommand(m_robotDrive));
 
   }
 
