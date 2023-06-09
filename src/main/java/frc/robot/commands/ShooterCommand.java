@@ -37,8 +37,8 @@ public class ShooterCommand extends CommandBase {
   public void execute() {
     m_shooterSubsystem.shoot(m_speed);
     if(timer.hasElapsed(.3)) {
-      m_shooterSubsystem.shootadvance(m_speed);
-      m_intakeSubsystem.shoot(m_speed);
+      m_shooterSubsystem.shootadvance(1);
+      m_intakeSubsystem.shoot(1);
     }
   }
 
@@ -47,6 +47,7 @@ public class ShooterCommand extends CommandBase {
   public void end(boolean interrupted) {
     m_shooterSubsystem.dontshoot();
     m_intakeSubsystem.dontshoot();
+    
   }
 
   // Returns true when the command should end.

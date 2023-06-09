@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.BalanceCommand;
 import frc.robot.commands.BrakeCommand;
-import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -82,11 +82,16 @@ public class RobotContainer {
 
       //joystick.button(2).onTrue(new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, 1));
       joystick.button(8).onTrue(new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, .4));
-      joystick.button(10).onTrue(new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, .6));
-      joystick.button(12).onTrue(new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, .9));
+      joystick.button(10).onTrue(new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, .5));
+      joystick.button(12)
+        .onTrue(Commands.runOnce(() -> m_shooterSubsystem.poleOut(true))
+        .andThen(new ShooterCommand(m_shooterSubsystem, m_intakeSubsystem, .9))
+        .andThen(Commands.runOnce(() -> m_shooterSubsystem.poleOut(false))));
 
       m_driverController.leftBumper().whileTrue(new BrakeCommand(m_robotDrive));
-      m_driverController.rightBumper().onTrue(new IntakeCommand(m_intakeSubsystem));
+      m_driverController.rightBumper().onTrue(Commands.runOnce(() -> m_intakeSubsystem.toggleIntake()));
+
+      m_driverController.y().onTrue(Commands.runOnce(() -> m_shooterSubsystem.togglePoles()));
 
     
       SmartDashboard.putData(new BalanceCommand(m_robotDrive));

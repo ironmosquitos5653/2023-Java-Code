@@ -28,11 +28,15 @@ public class AutonomousManager {
         m_chooser.addOption("Right 3 Ball", m_autos.right3BallAuto);
         m_chooser.addOption("Left 4 Ball", m_autos.left4BallAuto);
         m_chooser.addOption("Right 4 Ball", m_autos.right4BallAuto);
-        m_chooser.addOption("Left 5 Ball", m_autos.left5BallAuto);
-        m_chooser.addOption("Right 5 Ball", m_autos.right5BallAuto);
+        // m_chooser.addOption("Left 5 Ball", m_autos.left5BallAuto);
+        // m_chooser.addOption("Right 5 Ball", m_autos.right5BallAuto);
         m_chooser.addOption("Center Balance", m_autos.centerBalanceAuto);
         m_chooser.addOption("Center Right 2 Ball", m_autos.centerRight2BallAuto);
         m_chooser.addOption("Center Left 2 Ball", m_autos.centerLeft2BallAuto);
+        m_chooser.addOption("Right Side 3 Balance", m_autos.rightSide3BalanceAuto);
+        m_chooser.addOption("Left Side 3 Balance", m_autos.leftSide3BalanceAuto);
+        m_chooser.addOption("Right Side 2 Balance", m_autos.rightSide2BalanceAuto);
+        m_chooser.addOption("Left Side 2 Balance", m_autos.leftSide2BalanceAuto);
 
         SmartDashboard.putData("Auto Mode", m_chooser);
         

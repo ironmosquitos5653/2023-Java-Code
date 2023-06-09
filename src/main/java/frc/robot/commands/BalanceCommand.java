@@ -25,12 +25,13 @@ public class BalanceCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_driveSubsystem.getPitchDegrees() > 9) {
-      m_driveSubsystem.drive(-.18, 0, 0, isFinished());
-    } else if(m_driveSubsystem.getPitchDegrees() < -9) {
-      m_driveSubsystem.drive(.18, 0, 0, isFinished());
+    if(m_driveSubsystem.getPitchDegrees() > 11) {
+      m_driveSubsystem.drive(-.13, 0, 0, isFinished());
+    } else if(m_driveSubsystem.getPitchDegrees() < -11) {
+      m_driveSubsystem.drive(.13, 0, 0, isFinished());
     } else {
       m_driveSubsystem.drive(0, 0, 0, isFinished());
+      m_driveSubsystem.setX();
     }
   }
 

@@ -9,7 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -20,12 +20,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANSparkMax shootadvance2;
   private static final int deviceIDshoot = 25;
   private CANSparkMax shooter;
-  private static final int leftServoID = 2;
-  private static final int rightServoID = 3;
-  private Servo leftServo;
-  private Servo rightServo;
-  private static final int solenoidForward = 0;
-  private static final int solenoidReverse = 1;
+  private static final int solenoidForward = 1;
+  private static final int solenoidReverse = 0;
   private DoubleSolenoid poleSolenoid;
 
   /** Creates a new ShooterSubsystem. */
@@ -38,9 +34,9 @@ public class ShooterSubsystem extends SubsystemBase {
     shootadvance2.restoreFactoryDefaults();
     shooter = new CANSparkMax(deviceIDshoot, MotorType.kBrushless);
     shooter.restoreFactoryDefaults();
-    leftServo = new Servo(leftServoID);
-    rightServo = new Servo(rightServoID);
     poleSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, solenoidForward, solenoidReverse);
+    poleOut(false);
+
   }
 
   @Override
@@ -62,17 +58,15 @@ public class ShooterSubsystem extends SubsystemBase {
     shooter.set(0);
   }
 
-  public void servoOut(boolean isOut) {
-    if(isOut) {
-      leftServo.setAngle(0);
-      rightServo.setAngle(0);
-    } else {
-      leftServo.setAngle(0);
-      rightServo.setAngle(0);
-    }
-  }
-
   public void togglePoles() {
     poleSolenoid.toggle();
+  }
+
+  public void poleOut(boolean out) {
+    if(out) {
+      poleSolenoid.set(Value.kForward);
+    } else {
+      poleSolenoid.set(Value.kReverse);
+    }
   }
 }
